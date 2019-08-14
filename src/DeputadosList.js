@@ -17,23 +17,23 @@ function DeputadosList() {
   }, []);
 
   return (
-      <Row justify="center" align="top" gutter={24}>
-        {deputados.map(deputado => {
-          return (
-            <Col
-              style={{ display: "flex", alignContent: "space-between" }}
-              span={4}
-              key={deputado.id}
-            >
-              <Deputado
-                id={deputado.id}
-                nome={deputado.nome}
-                foto={deputado.urlFoto}
-              />
-            </Col>
-          );
-        })}
-      </Row>
+    <Row justify="center" align="top" gutter={24}>
+      {deputados.map(deputado => {
+        return (
+          <Col
+            style={{ display: "flex", alignContent: "space-between" }}
+            span={4}
+            key={deputado.id}
+          >
+            <Deputado
+              id={deputado.id}
+              nome={deputado.nome}
+              foto={deputado.urlFoto}
+            />
+          </Col>
+        );
+      })}
+    </Row>
   );
 }
 
