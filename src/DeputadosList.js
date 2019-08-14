@@ -21,6 +21,7 @@ function DeputadosList() {
       {deputados.map(deputado => {
         return (
           <Col
+              xs={20} sm={16} md={12} lg={8} xl={4}
             style={{ display: "flex", alignContent: "space-between" }}
             span={4}
             key={deputado.id}
