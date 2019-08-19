@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Deputado from "./Deputado";
-import { Row, Col } from "antd";
+import Deputado from "./Deputado/Deputado";
+import "./DeputadosList.css";
+
+import estados from "./estados-br";
 
 function DeputadosList() {
   const [deputados, setDeputados] = useState([]);
@@ -17,24 +19,33 @@ function DeputadosList() {
   }, []);
 
   return (
-    <Row justify="center" align="top" gutter={24}>
-      {deputados.map(deputado => {
-        return (
-          <Col
-              xs={20} sm={16} md={12} lg={8} xl={4}
-            style={{ display: "flex", alignContent: "space-between" }}
-            span={4}
-            key={deputado.id}
-          >
-            <Deputado
-              id={deputado.id}
-              nome={deputado.nome}
-              foto={deputado.urlFoto}
-            />
-          </Col>
-        );
-      })}
-    </Row>
+    <div className="container custom-container">
+      <div className="field">
+        <div className="control">
+          <div className="select">
+            <select defaultValue="Brasil">
+              {estados.UF.map(estado => {
+                return <option key={estado.sigla}>{estado.sigla}</option>;
+              })}
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div className="columns is-multiline is-flex">
+        {deputados &&
+          deputados.map(deputado => {
+            return (
+              <Deputado
+                key={deputado.id}
+                id={deputado.id}
+                nome={deputado.nome}
+                foto={deputado.urlFoto}
+              />
+            );
+          })}
+      </div>
+    </div>
   );
 }
 

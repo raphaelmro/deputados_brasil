@@ -1,0 +1,13 @@
+.foto-deputado {
+    width: 15%;
+    height: auto;
+}
+
+.content-deputado {
+    text-align: center;
+}
+
+.custom-column {
+    width: 15% !important;
+    height: auto;
+}
