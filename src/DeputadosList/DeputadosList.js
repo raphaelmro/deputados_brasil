@@ -53,8 +53,8 @@ function DeputadosList() {
       <div className="columns is-multiline is-flex">
         {loaded ? (
           deputados.map(deputado => {
-            const { id, nome, urlFoto } = deputado;
-            return <Deputado key={id} id nome={nome} foto={urlFoto} />;
+            const { id, nome, urlFoto, siglaPartido, siglaUf } = deputado;
+            return <Deputado key={id} id nome={nome} foto={urlFoto} siglaPartido={siglaPartido} siglaUf={siglaUf} />;
           })
         ) : (
           <LoadImage />

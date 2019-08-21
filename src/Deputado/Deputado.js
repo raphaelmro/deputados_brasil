@@ -1,7 +1,7 @@
 import React from "react";
 import "./Deputado.css";
 
-function Deputado({ id, nome, foto }) {
+function Deputado({ id, nome, foto, siglaPartido, siglaUf }) {
   return (
     <div className="column is-one-fifth">
       <div className="card">
@@ -12,7 +12,7 @@ function Deputado({ id, nome, foto }) {
         </div>
       </div>
       <div className="content content-deputado">
-        <p>{nome}</p>
+          <p>{nome} - {siglaPartido}/{siglaUf}</p>
       </div>
     </div>
   );
