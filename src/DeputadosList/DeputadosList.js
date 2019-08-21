@@ -54,7 +54,7 @@ function DeputadosList() {
         {loaded ? (
           deputados.map(deputado => {
             const { id, nome, urlFoto, siglaPartido, siglaUf } = deputado;
-            return <Deputado key={id} id nome={nome} foto={urlFoto} siglaPartido={siglaPartido} siglaUf={siglaUf} />;
+            return <Deputado key={id} id={id} nome={nome} foto={urlFoto} siglaPartido={siglaPartido} siglaUf={siglaUf} />;
           })
         ) : (
           <LoadImage />
