@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import loading from "../assets/loading.gif";
 import Deputado from "../Deputado/Deputado";
 import "./DeputadosList.css";
 
+import { baseUrl } from "../api";
 import estados from "../estados-br";
+import LoadImage from "../LoadImage/LoadImage";
 
 function DeputadosList() {
   const [deputados, setDeputados] = useState([]);
@@ -12,23 +13,20 @@ function DeputadosList() {
   const [selectedOption, setSelectedOption] = useState("Brasil");
 
   const fetchListDeputados = async () => {
+    const response = await axios.get(`${baseUrl}/deputados`);
+    setDeputados(response.data.dados);
+    setLoaded(true);
+  };
+
+  const fetchListDeputadosUf = async () => {
+    setLoaded(false);
     const response = await axios.get(
-      `https://dadosabertos.camara.leg.br/api/v2/deputados`
+      `${baseUrl}/deputados?siglaUf=${selectedOption}`
     );
     setDeputados(response.data.dados);
     setLoaded(true);
   };
-  useEffect(() => {
-    fetchListDeputados();
-    setLoaded(false);
-  }, []);
 
-  const fetchListDeputadosUf = async () => {
-    const response = await axios.get(
-      `https://dadosabertos.camara.leg.br/api/v2/deputados?siglaUf=${selectedOption}`
-    );
-    setDeputados(response.data.dados);
-  };
   useEffect(() => {
     selectedOption === "Brasil" ? fetchListDeputados() : fetchListDeputadosUf();
   }, [selectedOption]);
@@ -44,7 +42,7 @@ function DeputadosList() {
           <div className="select">
             <select value={selectedOption} onChange={handleSelectedOption}>
               {estados.UF.map(estado => {
-                const {sigla} = estado
+                const { sigla } = estado;
                 return <option key={sigla}>{sigla}</option>;
               })}
             </select>
@@ -59,9 +57,7 @@ function DeputadosList() {
             return <Deputado key={id} id nome={nome} foto={urlFoto} />;
           })
         ) : (
-          <figure className="image container is-128x128">
-            <img src={loading} alt="Carregando" />
-          </figure>
+          <LoadImage />
         )}
       </div>
     </div>
