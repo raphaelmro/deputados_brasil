@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import axios from "axios";
 import Deputado from "../Deputado/Deputado";
 import "./DeputadosList.css";
@@ -12,28 +12,28 @@ function DeputadosList() {
   const [loaded, setLoaded] = useState(false);
   const [selectedOption, setSelectedOption] = useState("Brasil");
 
-  const fetchListDeputados = async () => {
+  const fetchListDeputados = useCallback(async () => {
     const response = await axios.get(`${baseUrl}/deputados`);
     setDeputados(response.data.dados);
     setLoaded(true);
-  };
+  }, []);
 
-  const fetchListDeputadosUf = async () => {
+  const fetchListDeputadosUf = useCallback(async () => {
     setLoaded(false);
     const response = await axios.get(
       `${baseUrl}/deputados?siglaUf=${selectedOption}`
     );
     setDeputados(response.data.dados);
     setLoaded(true);
-  };
-
-  useEffect(() => {
-    selectedOption === "Brasil" ? fetchListDeputados() : fetchListDeputadosUf();
   }, [selectedOption]);
 
   const handleSelectedOption = e => {
     setSelectedOption(e.target.value);
   };
+
+  useEffect(() => {
+    selectedOption === "Brasil" ? fetchListDeputados() : fetchListDeputadosUf();
+  }, [fetchListDeputados, fetchListDeputadosUf, selectedOption]);
 
   return (
     <div className="container custom-container">
