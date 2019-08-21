@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import loading from './assets/loading.gif'
-import Deputado from "./Deputado/Deputado";
-import "./DeputadosList/DeputadosList.css";
+import loading from "../assets/loading.gif";
+import Deputado from "../Deputado/Deputado";
+import "./DeputadosList.css";
 
-import estados from "./estados-br";
+import estados from "../estados-br";
 
 function DeputadosList() {
   const [deputados, setDeputados] = useState([]);
@@ -16,11 +16,11 @@ function DeputadosList() {
       `https://dadosabertos.camara.leg.br/api/v2/deputados`
     );
     setDeputados(response.data.dados);
-    setLoaded(true)
+    setLoaded(true);
   };
   useEffect(() => {
     fetchListDeputados();
-    setLoaded(false)
+    setLoaded(false);
   }, []);
 
   const fetchListDeputadosUf = async () => {
@@ -30,8 +30,8 @@ function DeputadosList() {
     setDeputados(response.data.dados);
   };
   useEffect(() => {
-    fetchListDeputadosUf();
-  }, [fetchListDeputadosUf]);
+    selectedOption === "Brasil" ? fetchListDeputados() : fetchListDeputadosUf();
+  }, [selectedOption]);
 
   const handleSelectedOption = e => {
     setSelectedOption(e.target.value);
@@ -44,7 +44,8 @@ function DeputadosList() {
           <div className="select">
             <select value={selectedOption} onChange={handleSelectedOption}>
               {estados.UF.map(estado => {
-                return <option key={estado.sigla}>{estado.sigla}</option>;
+                const {sigla} = estado
+                return <option key={sigla}>{sigla}</option>;
               })}
             </select>
           </div>
@@ -52,19 +53,15 @@ function DeputadosList() {
       </div>
 
       <div className="columns is-multiline is-flex">
-        { loaded ? deputados.map(deputado => {
-          return (
-            <Deputado
-              key={deputado.id}
-              id={deputado.id}
-              nome={deputado.nome}
-              foto={deputado.urlFoto}
-            />
-          );
-        }) : (
-            <figure className="image container is-128x128">
-              <img src={loading} alt="Carregando" />
-            </figure>
+        {loaded ? (
+          deputados.map(deputado => {
+            const { id, nome, urlFoto } = deputado;
+            return <Deputado key={id} id nome={nome} foto={urlFoto} />;
+          })
+        ) : (
+          <figure className="image container is-128x128">
+            <img src={loading} alt="Carregando" />
+          </figure>
         )}
       </div>
     </div>

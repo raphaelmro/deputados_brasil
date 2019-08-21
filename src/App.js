@@ -1,5 +1,5 @@
 import React from "react";
-import DeputadosList from "./DeputadosList";
+import DeputadosList from "./DeputadosList/DeputadosList";
 import Header from "./Header/Header";
 
 function App() {
