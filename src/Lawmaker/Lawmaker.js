@@ -1,24 +1,24 @@
 import React from "react";
-import "./Deputado.css";
+import "./Lawmaker.css";
 import {Link} from "react-router-dom";
 
-function Deputado({ id, nome, foto, siglaPartido, siglaUf }) {
+function Lawmaker({ id, name, avatar, partyAcronym, FUAcronym }) {
   return (
     <div className="column is-one-fifth">
       <Link to={`/deputado/detalhes/${id}`}>
         <div className="card">
           <div className="card-image">
             <figure className="image">
-              <img className="foto-deputado" src={foto} alt={nome} />
+              <img className="foto-deputado" src={avatar} alt={name} />
             </figure>
           </div>
         </div>
         <div className="content content-deputado">
-            <p>{nome} - {siglaPartido}/{siglaUf}</p>
+            <p>{name} - {partyAcronym}/{FUAcronym}</p>
         </div>
       </Link>
     </div>
   );
 }
 
-export default Deputado;
+export default Lawmaker;

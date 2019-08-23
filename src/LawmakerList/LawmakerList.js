@@ -1,29 +1,29 @@
 import React, { useState, useCallback, useEffect } from "react";
 import axios from "axios";
-import Deputado from "../Deputado/Deputado";
-import "./DeputadosList.css";
+import Lawmaker from "../Lawmaker/Lawmaker";
+import "./LawmakerList.css";
 
 import { baseUrl } from "../api";
 import estados from "../estados-br";
 import LoadImage from "../LoadImage/LoadImage";
 
-function DeputadosList() {
-  const [deputados, setDeputados] = useState([]);
+function LawmakerList() {
+  const [lawmakers, setLawmakers] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [selectedOption, setSelectedOption] = useState("Brasil");
 
-  const fetchListDeputados = useCallback(async () => {
+  const fetchLawmakerList = useCallback(async () => {
     const response = await axios.get(`${baseUrl}/deputados`);
-    setDeputados(response.data.dados);
+    setLawmakers(response.data.dados);
     setLoaded(true);
   }, []);
 
-  const fetchListDeputadosUf = useCallback(async () => {
+  const fetchLawmakerListByFU = useCallback(async () => {
     setLoaded(false);
     const response = await axios.get(
       `${baseUrl}/deputados?siglaUf=${selectedOption}`
     );
-    setDeputados(response.data.dados);
+    setLawmakers(response.data.dados);
     setLoaded(true);
   }, [selectedOption]);
 
@@ -32,8 +32,8 @@ function DeputadosList() {
   };
 
   useEffect(() => {
-    selectedOption === "Brasil" ? fetchListDeputados() : fetchListDeputadosUf();
-  }, [fetchListDeputados, fetchListDeputadosUf, selectedOption]);
+    selectedOption === "Brasil" ? fetchLawmakerList() : fetchLawmakerListByFU();
+  }, [fetchLawmakerList, fetchLawmakerListByFU, selectedOption]);
 
   return (
     <div className="container custom-container">
@@ -52,9 +52,9 @@ function DeputadosList() {
 
       <div className="columns is-multiline is-flex">
         {loaded ? (
-          deputados.map(deputado => {
-            const { id, nome, urlFoto, siglaPartido, siglaUf } = deputado;
-            return <Deputado key={id} id={id} nome={nome} foto={urlFoto} siglaPartido={siglaPartido} siglaUf={siglaUf} />;
+          lawmakers.map(lawmaker => {
+            const { id, nome, urlFoto, siglaPartido, siglaUf } = lawmaker;
+            return <Lawmaker key={id} id={id} name={nome} avatar={urlFoto} partyAcronym={siglaPartido} FUAcronym={siglaUf} />;
           })
         ) : (
           <LoadImage />
@@ -64,4 +64,4 @@ function DeputadosList() {
   );
 }
 
-export default DeputadosList;
+export default LawmakerList;
