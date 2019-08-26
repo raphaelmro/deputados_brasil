@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react'
+import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import {baseUrl} from "../api";
 import LoadImage from "../LoadImage/LoadImage";
@@ -8,18 +8,14 @@ function LawmakerDetails(props) {
     const [lawmaker, setLawmaker] = useState([])
     const [loaded, setLoaded] = useState(false)
 
-    const fetchLawmakersByFU = useCallback(async () => {
+    useEffect( () => {
         setLoaded(false)
-        await axios.get(`${baseUrl}/deputados/${id}`)
+        axios.get(`${baseUrl}/deputados/${id}`)
             .then(res => {
                 setLawmaker(res.data.dados)
             })
         setLoaded(true)
-    }, [id])
-
-    useEffect(() => {
-        fetchLawmakersByFU()
-    },[fetchLawmakersByFU])
+    },[id])
 
 
     return (
