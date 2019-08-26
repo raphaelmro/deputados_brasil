@@ -67,7 +67,6 @@ function LawmakerList() {
 
   return (
     <div className="container custom-container">
-      {console.log(loaded)}
       <div className="box">
         <div className="columns">
           <div className="column">
