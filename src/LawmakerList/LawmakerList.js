@@ -4,6 +4,8 @@ import Lawmaker from "../Lawmaker/Lawmaker";
 import "./LawmakerList.css";
 import { baseUrl } from "../api";
 import estados from "../estados-br";
+import debounce from 'lodash/debounce'
+import { useDebounce } from 'use-debounce';
 
 import LoadImage from "../LoadImage/LoadImage";
 
@@ -37,7 +39,7 @@ function LawmakerList() {
     setSearchInput(query);
   };
 
-  const fetchLawmakerBySearching = useCallback(async () => {
+  const fetchLawmakerBySearching = async () => {
     setLoaded(false);
     if (searchInput.length === 0) {
       await fetchLawmakerList();
@@ -54,11 +56,29 @@ function LawmakerList() {
       });
     }
     setLoaded(true);
-  }, [searchInput, fetchLawmakerList]);
+  }
+
+  const debouncedSearchTerm = useCallback(useDebounce(searchInput, 500), []);
 
   useEffect(() => {
-    fetchLawmakerBySearching();
-  }, [fetchLawmakerBySearching]);
+    setLoaded(false);
+    if (searchInput.length === 0) {
+       fetchLawmakerList();
+    } else {
+      setLoaded(false);
+       axios.get(`${baseUrl}/deputados`).then(res => {
+        setData(
+            res.data.dados.filter(lawmaker => {
+              return lawmaker.nome
+                  .toLowerCase()
+                  .includes(searchInput.toLowerCase());
+            })
+        );
+      });
+    }
+    setLoaded(true);
+  }, [debouncedSearchTerm, searchInput, fetchLawmakerList])
+
 
   useEffect(() => {
     selectedOption === "Brasil" ? fetchLawmakerList() : fetchLawmakerListByFU();
@@ -76,7 +96,7 @@ function LawmakerList() {
                   type="text"
                   placeholder="Pesquise o nome do deputado"
                   value={searchInput}
-                  onChange={e => handleSearchInput(e.target.value)}
+                  onChange={e =>setSearchInput(e.target.value)}
                 />
               </div>
             </div>
