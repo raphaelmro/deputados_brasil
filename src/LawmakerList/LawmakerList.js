@@ -14,6 +14,7 @@ function LawmakerList() {
   const [searchInput, setSearchInput] = useState("");
 
   const fetchLawmakerList = useCallback(async () => {
+    setLoaded(false);
     const response = await axios.get(`${baseUrl}/deputados`);
     setData(response.data.dados);
     setLoaded(true);
@@ -36,32 +37,29 @@ function LawmakerList() {
     setSearchInput(query);
   };
 
-  const fetchLawmakerBySearching = useCallback( async () => {
-    setLoaded(false)
+  const fetchLawmakerBySearching = useCallback(async () => {
+    setLoaded(false);
     if (searchInput.length === 0) {
-      fetchLawmakerList();
+      await fetchLawmakerList();
     } else {
-      const resultado = data.filter(lawmaker => {
-        return lawmaker.nome.toLowerCase().includes(searchInput.toLowerCase());
+      setLoaded(false);
+      await axios.get(`${baseUrl}/deputados`).then(res => {
+        setData(
+          res.data.dados.filter(lawmaker => {
+            return lawmaker.nome
+              .toLowerCase()
+              .includes(searchInput.toLowerCase());
+          })
+        );
       });
-      setData(resultado);
-      setLoaded(true)
+      setLoaded(true);
     }
-  },[searchInput, fetchLawmakerList, data])
+    setLoaded(true);
+  }, [searchInput, fetchLawmakerList]);
 
   useEffect(() => {
-    fetchLawmakerBySearching()
-  },[fetchLawmakerBySearching])
-
-
-  /*const setDisplayedLawmakers = _.debounce(async query => {
-    await setSearchInput(query)
-    const resultado = data.filter(lawmaker => {
-      return lawmaker.nome.toLowerCase().includes(searchInput.toLowerCase());
-    });
-    console.log(resultado)
-    setData(resultado);
-  }, 200);*/
+    fetchLawmakerBySearching();
+  }, [fetchLawmakerBySearching]);
 
   useEffect(() => {
     selectedOption === "Brasil" ? fetchLawmakerList() : fetchLawmakerListByFU();
@@ -69,6 +67,7 @@ function LawmakerList() {
 
   return (
     <div className="container custom-container">
+      {console.log(loaded)}
       <div className="box">
         <div className="columns">
           <div className="column">
@@ -77,7 +76,7 @@ function LawmakerList() {
                 <input
                   className="input"
                   type="text"
-                  placeholder="Nome do Deputado"
+                  placeholder="Pesquise o nome do deputado"
                   value={searchInput}
                   onChange={e => handleSearchInput(e.target.value)}
                 />
