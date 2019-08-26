@@ -52,7 +52,6 @@ function LawmakerList() {
           })
         );
       });
-      setLoaded(true);
     }
     setLoaded(true);
   }, [searchInput, fetchLawmakerList]);
