@@ -5,15 +5,18 @@ import LoadImage from "../LoadImage/LoadImage";
 
 function LawmakerDetails(props) {
     const {id} = props.match.params
-    const [data, setData] = useState([])
+    const [lawmaker, setLawmaker] = useState([])
     const [loaded, setLoaded] = useState(false)
 
     const fetchLawmakersByFU = useCallback(async () => {
-        const response  = await axios.get(`${baseUrl}/deputados/${id}`)
-        setData(response.data.dados)
+        setLoaded(false)
+        await axios.get(`${baseUrl}/deputados/${id}`)
+            .then(res => {
+                setLawmaker(res.data.dados)
+            })
         setLoaded(true)
-        console.log(data)
-    }, [data, id])
+    }, [id])
+
     useEffect(() => {
         fetchLawmakersByFU()
     },[fetchLawmakersByFU])
@@ -21,7 +24,7 @@ function LawmakerDetails(props) {
 
     return (
         <div>
-            {loaded ? <p>{JSON.stringify(data)}</p>: <LoadImage/>}
+            {loaded ? <p>{JSON.stringify(lawmaker)}</p>: <LoadImage/>}
         </div>
     )
 }
