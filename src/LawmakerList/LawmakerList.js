@@ -4,19 +4,18 @@ import Lawmaker from "../Lawmaker/Lawmaker";
 import "./LawmakerList.css";
 import { baseUrl } from "../api";
 import estados from "../estados-br";
-import _  from "lodash";
 
 import LoadImage from "../LoadImage/LoadImage";
 
 function LawmakerList() {
-  const [lawmakers, setLawmakers] = useState([]);
+  const [data, setData] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [selectedOption, setSelectedOption] = useState("Brasil");
   const [searchInput, setSearchInput] = useState("");
 
   const fetchLawmakerList = useCallback(async () => {
     const response = await axios.get(`${baseUrl}/deputados`);
-    setLawmakers(response.data.dados);
+    setData(response.data.dados);
     setLoaded(true);
   }, []);
 
@@ -25,29 +24,44 @@ function LawmakerList() {
     const response = await axios.get(
       `${baseUrl}/deputados?siglaUf=${selectedOption}`
     );
-    setLawmakers(response.data.dados);
+    setData(response.data.dados);
     setLoaded(true);
   }, [selectedOption]);
 
   const handleSelectedOption = e => {
-   setSelectedOption(e.target.value);
+    setSelectedOption(e.target.value);
   };
 
   const handleSearchInput = query => {
-    setDisplayedLawmakers(query);
+    setSearchInput(query);
   };
 
-  // TODO: Fix the first character problem
-  // TODO: Fix when the query is empty it should fetch all data
+  const fetchLawmakerBySearching = useCallback( async () => {
+    setLoaded(false)
+    if (searchInput.length === 0) {
+      fetchLawmakerList();
+    } else {
+      const resultado = data.filter(lawmaker => {
+        return lawmaker.nome.toLowerCase().includes(searchInput.toLowerCase());
+      });
+      setData(resultado);
+      setLoaded(true)
+    }
+  },[searchInput, fetchLawmakerList, data])
 
-  const setDisplayedLawmakers = _.debounce(query => {
-    setSearchInput(query);
-    const resultado = lawmakers.filter(lawmaker => {
-      return lawmaker.nome.toLowerCase().includes(searchInput.toLowerCase())
-    })
+  useEffect(() => {
+    fetchLawmakerBySearching()
+  },[fetchLawmakerBySearching])
+
+
+  /*const setDisplayedLawmakers = _.debounce(async query => {
+    await setSearchInput(query)
+    const resultado = data.filter(lawmaker => {
+      return lawmaker.nome.toLowerCase().includes(searchInput.toLowerCase());
+    });
     console.log(resultado)
-    setLawmakers(resultado)
-  }, 500);
+    setData(resultado);
+  }, 200);*/
 
   useEffect(() => {
     selectedOption === "Brasil" ? fetchLawmakerList() : fetchLawmakerListByFU();
@@ -64,6 +78,7 @@ function LawmakerList() {
                   className="input"
                   type="text"
                   placeholder="Nome do Deputado"
+                  value={searchInput}
                   onChange={e => handleSearchInput(e.target.value)}
                 />
               </div>
@@ -91,7 +106,7 @@ function LawmakerList() {
 
       <div className="columns is-multiline is-flex">
         {loaded ? (
-          lawmakers.map(lawmaker => {
+          data.map(lawmaker => {
             const { id, nome, urlFoto, siglaPartido, siglaUf } = lawmaker;
             return (
               <Lawmaker
