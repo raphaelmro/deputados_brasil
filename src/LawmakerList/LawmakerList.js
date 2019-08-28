@@ -4,7 +4,6 @@ import Lawmaker from "../Lawmaker/Lawmaker";
 import "./LawmakerList.css";
 import { baseUrl } from "../api";
 import estados from "../estados-br";
-import debounce from 'lodash/debounce'
 import { useDebounce } from 'use-debounce';
 
 import LoadImage from "../LoadImage/LoadImage";
@@ -35,11 +34,7 @@ function LawmakerList() {
     setSelectedOption(e.target.value);
   };
 
-  const handleSearchInput = query => {
-    setSearchInput(query);
-  };
-
-  const fetchLawmakerBySearching = async () => {
+  /*const fetchLawmakerBySearching = async () => {
     setLoaded(false);
     if (searchInput.length === 0) {
       await fetchLawmakerList();
@@ -56,7 +51,7 @@ function LawmakerList() {
       });
     }
     setLoaded(true);
-  }
+  }*/
 
   const debouncedSearchTerm = useCallback(useDebounce(searchInput, 500), []);
 
