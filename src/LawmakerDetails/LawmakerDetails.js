@@ -102,7 +102,7 @@ function LawmakerDetails(props) {
                         </tr>
                         <tr>
                           <td className="td-style">Telefone</td>
-                          <td>{ultimoStatus.gabinete.telefone}</td>
+                          <td>{`(61) ${ultimoStatus.gabinete.telefone}`}</td>
                         </tr>
                       </tbody>
                     </table>
