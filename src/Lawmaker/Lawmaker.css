@@ -1,3 +1,7 @@
+.card-custom {
+    height: 100%;
+}
+
 
 .foto-deputado {
     width: 15%;
@@ -17,5 +21,8 @@
     display: block;
     height: auto;
     width: 65%;
-    margin-left: 15%;
+    margin-left: 16%;
+    padding-top: 8%;
+    padding-bottom: 8%;
+    margin-bottom: 5%;
 }
