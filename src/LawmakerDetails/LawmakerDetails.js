@@ -7,6 +7,7 @@ import "./LawmakerDetails.css";
 function LawmakerDetails(props) {
   const { id } = props.match.params;
   const [lawmaker, setLawmaker] = useState([]);
+  const [lawmakerExpenses, setLawmakerExpenses] = useState([])
   const [loaded, setLoaded] = useState(false);
 
   const fetchLawmakerDetail = useCallback(async () => {
@@ -17,9 +18,17 @@ function LawmakerDetails(props) {
     setLoaded(true);
   }, [id]);
 
+  const fetchLawmakerExpenses = useCallback(async () => {
+    await axios.get(`https://dadosabertos.camara.leg.br/api/v2/deputados/${id}/despesas`)
+        .then(res => {
+          setLawmakerExpenses(res.data.dados)
+        })
+  }, [id])
+
   useEffect(() => {
     fetchLawmakerDetail();
-  }, [fetchLawmakerDetail]);
+    fetchLawmakerExpenses();
+  }, [fetchLawmakerDetail, fetchLawmakerExpenses]);
   const {
     nomeCivil,
     dataNascimento,
@@ -30,6 +39,7 @@ function LawmakerDetails(props) {
     ultimoStatus
   } = lawmaker;
 
+  console.log(lawmakerExpenses)
   return (
     <section className="section">
       <div className="container">
@@ -109,57 +119,35 @@ function LawmakerDetails(props) {
                   </div>
                 </div>
               </div>
-              {/*                        <div className="tile is-child box">
-                            <p className="title">Despesas</p>
-                            <table className="table is-striped is-fullwidth is-narrow">
-                                <thead>
-                                <tr>
-                                    <th>Data do Documento</th>
-                                    <th>Tipo de Despesa</th>
-                                    <th>Tipo de Documento</th>
-                                    <th>Valor do Documento</th>
-                                    <th>Valor Líquido</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Teste1</td>
-                                    <td>Teste1</td>
-                                    <td>Teste1</td>
-                                    <td>Teste1</td>
-                                    <td>Teste1</td>
-                                </tr>
-                                <tr>
-                                    <td>Teste1</td>
-                                    <td>Teste2</td>
-                                    <td>Four</td>
-                                    <td>Three</td>
-                                    <td>Four</td>
-                                </tr>
-                                <tr>
-                                    <td>Three</td>
-                                    <td>Three</td>
-                                    <td>Four</td>
-                                    <td>Three</td>
-                                    <td>Four</td>
-                                </tr>
-                                <tr>
-                                    <td>Three</td>
-                                    <td>Three</td>
-                                    <td>Four</td>
-                                    <td>Three</td>
-                                    <td>Four</td>
-                                </tr>
-                                <tr>
-                                    <td>Three</td>
-                                    <td>Three</td>
-                                    <td>Four</td>
-                                    <td>Three</td>
-                                    <td>Four</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>*/}
+              <div className="tile is-child box">
+                <p className="title">Despesas Recentes</p>
+                <table className="table is-striped is-fullwidth is-narrow">
+                  <thead>
+                    <tr>
+                      <th>Data do Documento</th>
+                      <th>Tipo de Despesa</th>
+                      <th>Tipo de Documento</th>
+                      <th>Fornecedor</th>
+                      <th>Valor do Documento</th>
+                      <th>Valor Líquido</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {lawmakerExpenses.map(expense =>{
+                      return (
+                          <tr>
+                            <td>{`${expense.mes}/${expense.ano}`}</td>
+                            <td>{expense.tipoDespesa}</td>
+                            <td>{expense.tipoDocumento}</td>
+                            <td>{expense.nomeFornecedor}</td>
+                            <td>{expense.valorDocumento}</td>
+                            <td>{expense.valorLiquido}</td>
+                          </tr>)
+                    })}
+
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         ) : (
