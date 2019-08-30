@@ -137,7 +137,7 @@ function LawmakerDetails(props) {
                           <tr>
                             <td>{`${expense.mes}/${expense.ano}`}</td>
                             <td>{expense.tipoDespesa}</td>
-                            <td>{expense.tipoDocumento}</td>
+                            <td>{expense.tipoDocumento === 'Nota Fiscal Eletrônica' ? 'NFE': expense.tipoDocumento}</td>
                             <td>{expense.nomeFornecedor}</td>
                             <td>{expense.valorDocumento}</td>
                             <td>{expense.valorLiquido}</td>
