@@ -39,7 +39,6 @@ function LawmakerDetails(props) {
     ultimoStatus
   } = lawmaker;
 
-  console.log(lawmakerExpenses)
   return (
     <section className="section">
       <div className="container">
@@ -120,7 +119,7 @@ function LawmakerDetails(props) {
                 </div>
               </div>
               <div className="tile is-child box">
-                <p className="title">Despesas Recentes</p>
+                <p className="title">Despesas</p>
                 <table className="table is-striped is-fullwidth is-narrow">
                   <thead>
                     <tr>
