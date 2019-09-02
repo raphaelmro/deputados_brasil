@@ -2,15 +2,20 @@ import React from "react";
 
 function LawmakerDetailsAvatar({ lawmakerDetails }) {
   return (
-    <div className="tile is-child">
-      <figure className="image is-4by3 figure-style">
+    <div className="tile is-child box">
+      <figure
+        className="image  figure-style"
+        style={{ marginLeft: "15%" }}
+      >
         <img
           src={lawmakerDetails.urlFoto}
           alt={lawmakerDetails.nomeEleitoral}
         />
       </figure>
-      <p className="title">{lawmakerDetails.nomeEleitoral}</p>
-      <p className="subtitle">{`${lawmakerDetails.siglaPartido}/${lawmakerDetails.siglaUf}`}</p>
+      <div className="lawmaker-title">
+        <p className="title">{lawmakerDetails.nomeEleitoral}</p>
+        <p className="subtitle">{`${lawmakerDetails.siglaPartido}/${lawmakerDetails.siglaUf}`}</p>
+      </div>
     </div>
   );
 }

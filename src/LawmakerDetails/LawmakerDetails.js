@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, {useState, useEffect, useCallback, Fragment} from "react";
 import axios from "axios";
 import { baseUrl } from "../api";
 import LoadImage from "../LoadImage/LoadImage";
@@ -39,15 +39,21 @@ function LawmakerDetails(props) {
     <section className="section">
       <div className="container">
         {loaded ? (
+          <Fragment>
           <div className="tile is-ancestor">
             <div className="tile is-parent">
               <LawmakerDetailsAvatar lawmakerDetails={ultimoStatus} />
             </div>
-            <div className="tile is-9 is-vertical is-parent">
+            <div className="tile is-parent">
               <Details lawmaker={lawmaker} />
+            </div>
+          </div>
+          <div className="tile is-ancestor">
+            <div className="tile is-12 is-vertical is-parent">
               <ExpensesList expensesDetails={lawmakerExpenses} />
             </div>
           </div>
+        </Fragment>
         ) : (
           <LoadImage />
         )}

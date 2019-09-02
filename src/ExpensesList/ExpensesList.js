@@ -27,8 +27,8 @@ function ExpensesList({ expensesDetails }) {
                     : expense.tipoDocumento}
                 </td>
                 <td>{expense.nomeFornecedor}</td>
-                <td>{expense.valorDocumento}</td>
-                <td>{expense.valorLiquido}</td>
+                <td>{`R$ ${expense.valorDocumento}`}</td>
+                <td>{`R$ ${expense.valorLiquido}`}</td>
               </tr>
             );
           })}
