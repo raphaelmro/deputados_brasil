@@ -1,6 +1,6 @@
 import React from "react";
 import "./Lawmaker.css";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Lawmaker({ id, name, avatar, partyAcronym, FUAcronym }) {
   return (
@@ -14,7 +14,9 @@ function Lawmaker({ id, name, avatar, partyAcronym, FUAcronym }) {
           </div>
         </div>
         <div className="content content-deputado">
-            <p>{name} - {partyAcronym}/{FUAcronym}</p>
+          <p>
+            {name} - {partyAcronym}/{FUAcronym}
+          </p>
         </div>
       </Link>
     </div>
