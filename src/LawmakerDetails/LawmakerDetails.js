@@ -3,6 +3,7 @@ import axios from "axios";
 import { baseUrl } from "../api";
 import LoadImage from "../LoadImage/LoadImage";
 import "./LawmakerDetails.css";
+import ExpensesList from "../ExpensesList/ExpensesList";
 
 function LawmakerDetails(props) {
   const { id } = props.match.params;
@@ -118,35 +119,7 @@ function LawmakerDetails(props) {
                   </div>
                 </div>
               </div>
-              <div className="tile is-child box">
-                <p className="title">Despesas</p>
-                <table className="table is-striped is-fullwidth is-narrow">
-                  <thead>
-                    <tr>
-                      <th>Data do Documento</th>
-                      <th>Tipo de Despesa</th>
-                      <th>Tipo de Documento</th>
-                      <th>Fornecedor</th>
-                      <th>Valor do Documento</th>
-                      <th>Valor Líquido</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {lawmakerExpenses.map(expense =>{
-                      return (
-                          <tr>
-                            <td>{`${expense.mes}/${expense.ano}`}</td>
-                            <td>{expense.tipoDespesa}</td>
-                            <td>{expense.tipoDocumento === 'Nota Fiscal Eletrônica' ? 'NFE': expense.tipoDocumento}</td>
-                            <td>{expense.nomeFornecedor}</td>
-                            <td>{expense.valorDocumento}</td>
-                            <td>{expense.valorLiquido}</td>
-                          </tr>)
-                    })}
-
-                  </tbody>
-                </table>
-              </div>
+              <ExpensesList expenses={lawmakerExpenses}/>
             </div>
           </div>
         ) : (
