@@ -1,6 +1,6 @@
 import React from "react";
 
-function ExpensesList({ expenses }) {
+function ExpensesList({ expensesDetails }) {
   return (
     <div className="tile is-child box">
       <p className="title">Despesas</p>
@@ -16,7 +16,7 @@ function ExpensesList({ expenses }) {
           </tr>
         </thead>
         <tbody>
-          {expenses.map(expense => {
+          {expensesDetails.map(expense => {
             return (
               <tr>
                 <td>{`${expense.mes}/${expense.ano}`}</td>

@@ -45,7 +45,7 @@ function LawmakerDetails(props) {
             </div>
             <div className="tile is-9 is-vertical is-parent">
               <Details lawmaker={lawmaker} />
-              <ExpensesList expenses={lawmakerExpenses} />
+              <ExpensesList expensesDetails={lawmakerExpenses} />
             </div>
           </div>
         ) : (
