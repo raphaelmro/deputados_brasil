@@ -23,7 +23,7 @@ function LawmakerDetails(props) {
 
   const fetchLawmakerExpenses = useCallback(async () => {
     await axios
-      .get(`https://dadosabertos.camara.leg.br/api/v2/deputados/${id}/despesas`)
+      .get(`${baseUrl}/deputados/${id}/despesas`)
       .then(res => {
         setLawmakerExpenses(res.data.dados);
       });
