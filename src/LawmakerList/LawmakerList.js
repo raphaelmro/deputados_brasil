@@ -34,25 +34,6 @@ function LawmakerList() {
     setSelectedOption(e.target.value);
   };
 
-  /*const fetchLawmakerBySearching = async () => {
-    setLoaded(false);
-    if (searchInput.length === 0) {
-      await fetchLawmakerList();
-    } else {
-      setLoaded(false);
-      await axios.get(`${baseUrl}/deputados`).then(res => {
-        setData(
-          res.data.dados.filter(lawmaker => {
-            return lawmaker.nome
-              .toLowerCase()
-              .includes(searchInput.toLowerCase());
-          })
-        );
-      });
-    }
-    setLoaded(true);
-  }*/
-
   const debouncedSearchTerm = useCallback(useDebounce(searchInput, 500), []);
 
   useEffect(() => {
