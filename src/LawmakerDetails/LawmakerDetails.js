@@ -6,6 +6,7 @@ import "./LawmakerDetails.css";
 import ExpensesList from "../ExpensesList/ExpensesList";
 import Details from "../Details/Details";
 import LawmakerDetailsAvatar from "../LawmakerDetailsAvatar/LawmakerDetailsAvatar";
+import { getAnoAtual } from "../util";
 
 function LawmakerDetails(props) {
   const { id } = props.match.params;
@@ -15,6 +16,7 @@ function LawmakerDetails(props) {
 
   const fetchLawmakerDetail = useCallback(async () => {
     setLoaded(false);
+
     await axios.get(`${baseUrl}/deputados/${id}`).then(res => {
       setLawmaker(res.data.dados);
     });
@@ -22,9 +24,10 @@ function LawmakerDetails(props) {
   }, [id]);
 
   const fetchLawmakerExpenses = useCallback(async () => {
-    await axios
-      .get(`${baseUrl}/deputados/${id}/despesas`)
+        await axios
+      .get(`${baseUrl}/deputados/${id}/despesas?ano=${getAnoAtual()}&ordem=DESC&ordenarPor=ano`)
       .then(res => {
+        console.log(res.data)
         setLawmakerExpenses(res.data.dados);
       });
   }, [id]);
