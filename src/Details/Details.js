@@ -1,4 +1,5 @@
 import React from "react";
+import {convertUpperCaseToTitleCase} from "../util";
 
 function Details({ lawmaker }) {
   const {
@@ -19,11 +20,11 @@ function Details({ lawmaker }) {
             <tbody>
               <tr>
                 <td className="td-style">Nome</td>
-                <td>{nomeCivil}</td>
+                <td>{convertUpperCaseToTitleCase(nomeCivil)}</td>
               </tr>
               <tr>
                 <td className="td-style">Nome Eleitoral</td>
-                <td>{ultimoStatus.nomeEleitoral}</td>
+                <td>{convertUpperCaseToTitleCase(ultimoStatus.nomeEleitoral)}</td>
               </tr>
               <tr>
                 <td className="td-style">Nascimento</td>

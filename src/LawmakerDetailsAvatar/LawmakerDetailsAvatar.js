@@ -1,4 +1,5 @@
 import React from "react";
+import {convertUpperCaseToTitleCase} from "../util";
 
 function LawmakerDetailsAvatar({ lawmakerDetails }) {
   return (
@@ -9,11 +10,11 @@ function LawmakerDetailsAvatar({ lawmakerDetails }) {
       >
         <img
           src={lawmakerDetails.urlFoto}
-          alt={lawmakerDetails.nomeEleitoral}
+          alt={convertUpperCaseToTitleCase(lawmakerDetails.nomeEleitoral)}
         />
       </figure>
       <div className="lawmaker-title">
-        <p className="title">{lawmakerDetails.nomeEleitoral}</p>
+        <p className="title">{convertUpperCaseToTitleCase(lawmakerDetails.nomeEleitoral)}</p>
         <p className="subtitle">{`${lawmakerDetails.siglaPartido}/${lawmakerDetails.siglaUf}`}</p>
       </div>
     </div>

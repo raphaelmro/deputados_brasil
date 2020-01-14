@@ -1,6 +1,7 @@
 import React from "react";
 import "./Lawmaker.css";
 import { Link } from "react-router-dom";
+import {convertUpperCaseToTitleCase} from "../util";
 
 function Lawmaker({ id, name, avatar, partyAcronym, FUAcronym }) {
   return (
@@ -15,7 +16,7 @@ function Lawmaker({ id, name, avatar, partyAcronym, FUAcronym }) {
         </div>
         <div className="content content-deputado">
           <p>
-            {name} - {partyAcronym}/{FUAcronym}
+            {convertUpperCaseToTitleCase(name)} - {partyAcronym}/{FUAcronym}
           </p>
         </div>
       </Link>
